@@ -40,6 +40,7 @@ type Config struct {
 	GitHubAuth *authn.GitHubAuthConfig        `yaml:"github_auth,omitempty"`
 	LDAPAuth   *authn.LDAPAuthConfig          `yaml:"ldap_auth,omitempty"`
 	MongoAuth  *authn.MongoAuthConfig         `yaml:"mongo_auth,omitempty"`
+	PostgresAuth  *authn.PostgresAuthConfig   `yaml:"postgres_auth,omitempty"`
 	ExtAuth    *authn.ExtAuthConfig           `yaml:"ext_auth,omitempty"`
 	ACL        authz.ACL                      `yaml:"acl,omitempty"`
 	ACLMongo   *authz.ACLMongoConfig          `yaml:"acl_mongo,omitempty"`
@@ -89,7 +90,7 @@ func validate(c *Config) error {
 	if c.Token.Expiration <= 0 {
 		return fmt.Errorf("expiration must be positive, got %d", c.Token.Expiration)
 	}
-	if c.Users == nil && c.ExtAuth == nil && c.GoogleAuth == nil && c.GitHubAuth == nil && c.LDAPAuth == nil && c.MongoAuth == nil {
+	if c.Users == nil && c.ExtAuth == nil && c.GoogleAuth == nil && c.GitHubAuth == nil && c.LDAPAuth == nil && c.MongoAuth == nil && c.PostgresAuth == nil {
 		return errors.New("no auth methods are configured, this is probably a mistake. Use an empty user map if you really want to deny everyone.")
 	}
 	if c.MongoAuth != nil {
