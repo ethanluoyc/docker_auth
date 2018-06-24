@@ -84,7 +84,9 @@ func (ea *PostgresAuth) Authenticate(user string, password PasswordString) (bool
 
 	err := row.Scan(&name, &pwdHash)
 
-	checkErr(err)
+	if err == sql.ErrNoRows {
+		return false, nil, nil
+	}
 
 	_, err = passlib.Verify(string(password), pwdHash)
 	if err == nil {
